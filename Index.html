@@ -369,13 +369,14 @@
                 return;
             }
 
-            const url = `${GAS_API_URL}?action=get_stats`;
+            // 加上時間戳記以防止快取
+            const url = `${GAS_API_URL}?action=get_stats&t=${new Date().getTime()}`;
             
-            // 修正：加入 credentials: 'omit' 以避免在已登入 Google 帳號的情況下發生 CORS 錯誤
+            // 修正：加入 credentials: 'omit' 以避免 CORS 錯誤
+            // 嘗試移除 explicit redirect: 'follow' 讓瀏覽器預設處理
             fetch(url, {
                 method: 'GET',
-                credentials: 'omit', 
-                redirect: 'follow'
+                credentials: 'omit'
             })
             .then(res => {
                 if (!res.ok) throw new Error('Network response was not ok');
@@ -390,9 +391,11 @@
                 statusEl.className = "text-[10px] text-green-600 font-bold";
             })
             .catch(err => {
-                console.error("Fetch stats error:", err);
-                statusEl.innerHTML = "⚠️ 連線不穩，顯示備用名單";
-                statusEl.className = "text-[10px] text-orange-500";
+                // 不要在這裡拋出錯誤到控制台，而是安靜地切換到 Demo 模式
+                console.warn("Fetch failed, switching to fallback data. Reason:", err.message);
+                
+                statusEl.innerHTML = "⚠️ 連線受阻，顯示離線數據";
+                statusEl.className = "text-[10px] text-orange-500 font-bold";
                 // 發生錯誤時，顯示 Demo 數據以免畫面空白
                 renderDemoLeaderboard();
             });
