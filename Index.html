@@ -343,43 +343,70 @@
             formData.append('data', JSON.stringify(payload));
             formData.append('action', 'pray');
 
+            // 修正：使用 mode: 'no-cors' 避免 POST redirect 造成的 CORS 錯誤
             fetch(GAS_API_URL, {
                 method: 'POST',
+                mode: 'no-cors',
                 body: formData
             })
-            .then(res => res.json())
-            .then(data => {
+            .then(() => {
+                // no-cors 模式下無法讀取 response body，直接假設成功
                 showToast("✨ 祈願已送達 ✨");
-                fetchStats();
+                // 稍微延遲後更新數據 (雖然無法保證寫入完成，但通常很快)
+                setTimeout(fetchStats, 1500);
             })
             .catch(err => {
                 console.error("Prayer failed:", err);
+                // 把次數加回去下次再傳
                 pendingClicks += clicksToSend;
+                showToast("連線不穩，稍後重試");
             });
         }
 
         function fetchStats() {
             if (isDemoMode) {
-                renderLeaderboard([
-                    {name: "晴天大神", count: 999},
-                    {name: userName || "你", count: clickCount},
-                    {name: "旅伴A", count: 50},
-                    {name: "路人乙", count: 12},
-                    {name: "路人丙", count: 8},
-                    {name: "路人丁", count: 5},
-                ]);
+                renderDemoLeaderboard();
                 return;
             }
 
             const url = `${GAS_API_URL}?action=get_stats`;
             
-            fetch(url)
-            .then(res => res.json())
+            // 修正：加入 credentials: 'omit' 以避免在已登入 Google 帳號的情況下發生 CORS 錯誤
+            fetch(url, {
+                method: 'GET',
+                credentials: 'omit', 
+                redirect: 'follow'
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
             .then(data => {
                 if (data.total) globalCountEl.innerText = data.total;
                 if (data.leaderboard) renderLeaderboard(data.leaderboard);
+                
+                // 如果成功抓到資料，狀態顯示為正常
+                statusEl.innerHTML = "🟢 已連線至神社";
+                statusEl.className = "text-[10px] text-green-600 font-bold";
             })
-            .catch(err => console.error("Fetch stats error:", err));
+            .catch(err => {
+                console.error("Fetch stats error:", err);
+                statusEl.innerHTML = "⚠️ 連線不穩，顯示備用名單";
+                statusEl.className = "text-[10px] text-orange-500";
+                // 發生錯誤時，顯示 Demo 數據以免畫面空白
+                renderDemoLeaderboard();
+            });
+        }
+
+        function renderDemoLeaderboard() {
+            renderLeaderboard([
+                {name: "晴天大神", count: 9999},
+                {name: userName || "你", count: clickCount + 10},
+                {name: "旅伴A", count: 50},
+                {name: "路人乙", count: 12},
+                {name: "路人丙", count: 8},
+                {name: "路人丁", count: 5},
+            ]);
         }
 
         function renderLeaderboard(list) {
