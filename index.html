@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>京都晴天大祈願</title>
-    
-    <!-- ========================================== -->
-    <!-- 1. 瀏覽器分頁小圖示 (Favicon) -->
-    <link rel="icon" href="https://placehold.co/96x96/">
-    
-    <!-- 2. 加入手機主畫面圖示 (Apple Touch Icon) -->
-    <!-- 修正：補上了原本缺少的結尾引號 -->
-    <link rel="apple-touch-icon" href="https://placehold.co/192x192/">
+    <title>12/17 京都晴天大祈願</title>
 
-    <!-- 3. 社群分享預覽圖 (OG Image) -->
-    <meta property="og:image" content="https://placehold.co/1200x630">
+    <!-- ========================================== -->
+    <!--  網站資訊與 Logo 設定 (已嵌入設計圖)      -->
+    <!-- ========================================== -->
+
+    <!-- 1. 網站說明 (Description) - 加入了詳細說明 -->
+    <meta name="description" content="為了 12/17 的京都之旅，集合大家的念力一起祈求好天氣！點擊晴天娃娃，趕走雨雲，召喚冬日暖陽！">
+    <meta property="og:description" content="為了 12/17 的京都之旅，集合大家的念力一起祈求好天氣！點擊晴天娃娃，趕走雨雲，召喚冬日暖陽！">
+    
+    <!-- 2. 瀏覽器分頁小圖示 (Favicon) - 使用內嵌 SVG 設計 (太陽+鳥居) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ffffff'/%3E%3Ccircle cx='50' cy='45' r='30' fill='%23fbbf24'/%3E%3Cpath d='M20,35 L80,35 M20,25 L80,25 M35,25 L35,90 M65,25 L65,90' stroke='%23ef4444' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+    
+    <!-- 3. 加入手機主畫面圖示 (Apple Touch Icon) - 同樣使用內嵌設計 -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23ffffff'/%3E%3Ccircle cx='50' cy='45' r='30' fill='%23fbbf24'/%3E%3Cpath d='M20,35 L80,35 M20,25 L80,25 M35,25 L35,90 M65,25 L65,90' stroke='%23ef4444' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+
+    <!-- 4. 社群分享預覽圖 (OG Image) -->
+    <!-- 注意：LINE/FB 分享圖通常需要真實的網址 (https://...)，無法使用內嵌代碼。 -->
+    <!-- 這裡暫時用佔位符，實際上線時請將 content 改為您圖片的真實網址 -->
+    <meta property="og:image" content="https://placehold.co/1200x630/e0f2fe/ef4444?text=KYOTO+PRAYER+12%2F17">
+
     <!-- ========================================== -->
 
     <!-- 引入 Tailwind CSS -->
@@ -28,13 +37,11 @@
     <style>
         body {
             font-family: 'Zen Maru Gothic', sans-serif;
-            /* 冬日冰藍漸層 */
             background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
             overflow-x: hidden;
-            color: #334155; /* Slate-700 */
+            color: #334155; 
         }
         
-        /* 晴天娃娃動畫 */
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(2deg); }
@@ -70,9 +77,8 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 140%; /* 稍微縮小光芒 */
+            width: 140%;
             height: 140%;
-            /* 冬日陽光：比較淡的金黃色 */
             background: conic-gradient(from 0deg, transparent 0%, rgba(253, 224, 71, 0.2) 10%, transparent 20%, rgba(253, 224, 71, 0.2) 30%, transparent 40%);
             transform: translate(-50%, -50%);
             z-index: -1;
@@ -81,11 +87,10 @@
             border-radius: 50%;
         }
 
-        /* 雪花飄落特效 */
         .snowflake {
             position: absolute;
             top: -20px;
-            color: #bae6fd; /* Sky-200 */
+            color: #bae6fd;
             user-select: none;
             z-index: 0;
             pointer-events: none;
@@ -96,7 +101,6 @@
             to { transform: translateY(100vh); }
         }
 
-        /* 玻璃擬態 */
         .glass-panel {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
@@ -122,13 +126,13 @@
     
     <div class="container px-4 py-4 relative z-10 w-full max-w-md flex flex-col h-full">
         
-        <!-- 標題區 (更緊湊 + 新增 Logo 設計) -->
+        <!-- Header 區域：包含 Logo 與 說明 -->
         <header class="text-center mb-4 shrink-0 flex flex-col items-center">
-            <!-- 新增：京都風 Logo -->
-            <div class="mb-2 relative">
-                <svg width="64" height="64" viewBox="0 0 100 100" class="drop-shadow-md">
+            <!-- 視覺化 Logo (與 Favicon 風格一致) -->
+            <div class="mb-2 relative group cursor-pointer transition-transform hover:scale-105">
+                <svg width="72" height="72" viewBox="0 0 100 100" class="drop-shadow-md">
                     <!-- 太陽 (背景) -->
-                    <circle cx="50" cy="45" r="30" fill="#fbbf24" class="logo-sun" />
+                    <circle cx="50" cy="45" r="32" fill="#fbbf24" class="logo-sun" />
                     <!-- 鳥居 (前景) -->
                     <path d="M20,35 L80,35 L80,25 L20,25 Z" fill="#ef4444" /> <!-- 上樑 -->
                     <path d="M25,45 L75,45 L75,39 L25,39 Z" fill="#ef4444" /> <!-- 下樑 -->
@@ -139,14 +143,21 @@
                 </svg>
             </div>
 
+            <!-- 活動標籤 -->
             <div class="inline-block px-3 py-0.5 bg-blue-600 text-white rounded-full text-[10px] mb-1 font-bold tracking-[0.2em] shadow">
                 KYOTO TRIP 12/17
             </div>
+            
+            <!-- 大標題 -->
             <h1 class="text-2xl font-black text-slate-700 mb-1 drop-shadow-sm tracking-tight">京都晴天大祈願 ❄️</h1>
-            <p class="text-xs text-slate-500 font-bold">祈求冬日暖陽，趕走雨雲！</p>
+            
+            <!-- 網站說明文案 (對應 Meta Description) -->
+            <p class="text-xs text-slate-500 font-bold bg-white/50 px-3 py-1 rounded-full">
+                集合眾人之力，趕走雨雲，召喚冬日暖陽！
+            </p>
         </header>
 
-        <!-- 設定與名稱 (更緊湊) -->
+        <!-- 設定與名稱 -->
         <div class="mb-4 shrink-0">
             <div id="name-input-section" class="glass-panel rounded-lg p-3 transition-all duration-300">
                 <div class="flex gap-2 justify-center items-center">
@@ -164,18 +175,18 @@
             </div>
         </div>
 
-        <!-- 主要互動區 (晴天娃娃) - 縮小高度 -->
+        <!-- 主要互動區 (晴天娃娃) -->
         <div class="relative flex justify-center items-center mb-4 shrink-0 h-40">
             <div class="sun-rays"></div>
             
-            <!-- 晴天娃娃 SVG (縮小) -->
+            <!-- 晴天娃娃 SVG -->
             <div id="teru-btn" class="teru-bozu relative w-32 h-32 select-none tap-highlight-transparent">
                 <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-xl">
                     <!-- 頭部 -->
                     <circle cx="100" cy="70" r="50" fill="white" stroke="#cbd5e1" stroke-width="2"/>
                     <!-- 身體 -->
                     <path d="M50,70 Q20,200 100,230 Q180,200 150,70" fill="white" stroke="#cbd5e1" stroke-width="2"/>
-                    <!-- 脖子圍巾 (改成紅色，在雪地比較顯眼) -->
+                    <!-- 脖子圍巾 -->
                     <path d="M55,105 Q100,125 145,105" fill="none" stroke="#ef4444" stroke-width="8" stroke-linecap="round"/>
                     <!-- 表情 -->
                     <circle cx="80" cy="65" r="5" fill="#334155"/>
@@ -195,7 +206,7 @@
             </div>
         </div>
 
-        <!-- 計數器顯示 (並排更緊湊) -->
+        <!-- 計數器顯示 -->
         <div class="grid grid-cols-2 gap-3 mb-4 shrink-0">
             <div class="glass-panel p-2 rounded-xl text-center">
                 <p class="text-[10px] text-slate-500 font-bold">本次貢獻</p>
@@ -212,7 +223,7 @@
             <span id="toast-msg">祈願發送中...</span>
         </div>
 
-        <!-- 排行榜 (高度限制+滾動) -->
+        <!-- 排行榜 -->
         <div class="glass-panel rounded-xl overflow-hidden flex flex-col flex-1 min-h-0">
             <div class="bg-blue-50/50 px-3 py-2 border-b border-blue-100 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-slate-700 text-sm flex items-center gap-1">
@@ -228,7 +239,7 @@
             </div>
         </div>
         
-        <!-- 說明與狀態 -->
+        <!-- 狀態 -->
         <div class="mt-2 text-center shrink-0 pb-2">
             <div id="backend-status" class="text-[10px] text-slate-400">
                 Checking connection...
@@ -363,7 +374,6 @@
 
             if (isDemoMode) {
                 console.log(`[Demo] Sent ${clicksToSend}`);
-                // 模擬稍微延遲
                 setTimeout(() => {
                     showToast("✨ 祈願能量已送出 ✨");
                     fetchStats(); 
@@ -381,21 +391,17 @@
             formData.append('data', JSON.stringify(payload));
             formData.append('action', 'pray');
 
-            // 修正：使用 mode: 'no-cors' 避免 POST redirect 造成的 CORS 錯誤
             fetch(GAS_API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 body: formData
             })
             .then(() => {
-                // no-cors 模式下無法讀取 response body，直接假設成功
                 showToast("✨ 祈願已送達 ✨");
-                // 稍微延遲後更新數據 (雖然無法保證寫入完成，但通常很快)
                 setTimeout(fetchStats, 1500);
             })
             .catch(err => {
                 console.error("Prayer failed:", err);
-                // 把次數加回去下次再傳
                 pendingClicks += clicksToSend;
                 showToast("連線不穩，稍後重試");
             });
@@ -407,11 +413,8 @@
                 return;
             }
 
-            // 加上時間戳記以防止快取
             const url = `${GAS_API_URL}?action=get_stats&t=${new Date().getTime()}`;
             
-            // 修正：加入 credentials: 'omit' 以避免 CORS 錯誤
-            // 嘗試移除 explicit redirect: 'follow' 讓瀏覽器預設處理
             fetch(url, {
                 method: 'GET',
                 credentials: 'omit'
@@ -424,17 +427,13 @@
                 if (data.total) globalCountEl.innerText = data.total;
                 if (data.leaderboard) renderLeaderboard(data.leaderboard);
                 
-                // 如果成功抓到資料，狀態顯示為正常
                 statusEl.innerHTML = "🟢 已連線至神社";
                 statusEl.className = "text-[10px] text-green-600 font-bold";
             })
             .catch(err => {
-                // 不要在這裡拋出錯誤到控制台，而是安靜地切換到 Demo 模式
-                console.warn("Fetch failed, switching to fallback data. Reason:", err.message);
-                
+                console.warn("Fetch failed, switching to fallback data.", err.message);
                 statusEl.innerHTML = "⚠️ 連線受阻，顯示離線數據";
                 statusEl.className = "text-[10px] text-orange-500 font-bold";
-                // 發生錯誤時，顯示 Demo 數據以免畫面空白
                 renderDemoLeaderboard();
             });
         }
@@ -505,14 +504,12 @@
         function createSnowflake(container) {
             const snow = document.createElement('div');
             snow.classList.add('snowflake');
-            snow.textContent = '❄'; // 使用 Unicode 雪花
+            snow.textContent = '❄';
             
-            // Randomize styling
             const size = 10 + Math.random() * 15;
             snow.style.fontSize = `${size}px`;
             snow.style.opacity = 0.3 + Math.random() * 0.5;
             
-            // Randomize position and animation
             const startX = Math.random() * 100;
             const delay = Math.random() * 5;
             const duration = 5 + Math.random() * 10;
@@ -523,7 +520,6 @@
             
             container.appendChild(snow);
         }
-
     </script>
 </body>
 </html>
